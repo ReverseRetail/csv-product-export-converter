@@ -35,6 +35,27 @@ class TestProduct < MiniTest::Unit::TestCase
     product
   end
 
+  def variant_product_with_prefilled_size
+    product = simple_product
+    product.instance_eval("@ProductName = 'True Religion Jeans'")
+    product.instance_eval("@AvailableSizes = '37,37.5,41.5'")
+    product
+  end
+
+  def variant_product_with_prefilled_size_and_colors # includes colors
+    product = simple_product
+    product.instance_eval("@ProductName = 'True Religion Jeans'")
+    product.instance_eval("@AvailableSizes = 'Orangetöne,37,37.5,41.5,Blautöne,Brauntöne'")
+    product
+  end
+
+  def variant_product_with_prefilled_non_numeric_sizes_and_colors
+    product = simple_product
+    product.instance_eval("@ProductName = 'True Religion Jeans'")
+    product.instance_eval("@AvailableSizes = 'Weißtöne,M,L,XL,Grüntöne,Brauntöne'")
+    product
+  end
+
   #
   # Tests
   #
@@ -103,6 +124,24 @@ class TestProduct < MiniTest::Unit::TestCase
     p = bag_product_without_size
     p.send(:extract_color_from_name)
     assert_equal 'Schwarztöne', p.Color
+  end
+
+  def test_keep_size_for_variant_products_if_exist
+    p = variant_product_with_prefilled_size
+    p.send(:extract_size_from_name)
+    assert_equal '37,37.5,41.5', p.AvailableSizes
+  end
+
+  def test_keep_size_for_variant_products_if_exist_and_remove_colors
+    p = variant_product_with_prefilled_size_and_colors
+    p.send(:extract_size_from_name)
+    assert_equal '37,37.5,41.5', p.AvailableSizes
+  end
+
+  def test_keep_size_for_variant_products_with_non_numeric_sizes_and_remove_colors
+    p = variant_product_with_prefilled_non_numeric_sizes_and_colors
+    p.send(:extract_size_from_name)
+    assert_equal 'M,L,XL', p.AvailableSizes
   end
 
   def test_transform_to_new_format

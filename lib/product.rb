@@ -49,9 +49,13 @@ private
   end
 
   def extract_size_from_name
-    @AvailableSizes = @ProductName.gsub(/^.* in .* Gr. /, '')
-    if @AvailableSizes == @ProductName
-      @AvailableSizes = @@ONESIZE_NAME
+    if @AvailableSizes.nil? || @AvailableSizes == ''
+      @AvailableSizes = @ProductName.gsub(/^.* in .* Gr. /, '')
+      if @AvailableSizes == @ProductName
+        @AvailableSizes = @@ONESIZE_NAME
+      end
+    else
+      @AvailableSizes.gsub!(/(^|,?)(\w|ß|ä|ö|ü)*töne,?/, '')
     end
   end
 
