@@ -4,7 +4,6 @@ require 'CSV'
 class CsvTransfromer
   @@SEPERATOR = ';'
   @@IN_ENCODING_FROM_TO = 'windows-1250:utf-8'
-  @@OUT_ENCODING_FROM_TO = 'utf-8:windows-1250'
 
   def initialize(input_file_name, output_file_name)
     if input_file_name.nil?
@@ -36,7 +35,7 @@ class CsvTransfromer
   end
 
   def write_output_csv output_file_name
-    CSV.open(output_file_name, 'wb', col_sep: @@SEPERATOR, encoding: @@OUT_ENCODING_FROM_TO) do |csv_out|
+    CSV.open(output_file_name, 'wb', col_sep: @@SEPERATOR) do |csv_out|
       csv_out << @products[0].instance_variables.map {|s| s.to_s.gsub('@', '')}
       @products.each do |p|
         csv_out << @products[0].instance_variables.map {|s| @products[0].instance_variable_get(s)}
