@@ -22,13 +22,7 @@ class CsvTransfromer
 
   def read_and_transform_products_from_csv input_file_name
     CSV.foreach(input_file_name, headers: true, col_sep: @@SEPERATOR, encoding: @@IN_ENCODING_FROM_TO) do |csv_in|
-      product = Product.new( csv_in['ProductID'],     csv_in['ProductCategory'],
-                             csv_in['Deeplink'],      csv_in['ProductName'],
-                             csv_in['ImageUrl'],      csv_in['ProductDescription'],
-                             csv_in['BrandName'],     csv_in['Price'],
-                             csv_in['PreviousPrice'], csv_in['AvailableSizes'],
-                             csv_in['Tags'],          csv_in['EAN'],
-                             csv_in['LastUpdate'],    csv_in['UnitPrice'] )
+      product = Product.new(*csv_in.fields)
       product.transform_to_new_format
       @products << product
     end
