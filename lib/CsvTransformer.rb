@@ -3,7 +3,7 @@ require 'CSV'
 
 class CsvTransfromer
   @@SEPERATOR = ';'
-  @@IN_ENCODING_FROM_TO = 'windows-1250:utf-8'
+  @@IN_ENCODING_FROM_TO = 'windows-1252:utf-8'
 
   def initialize(input_file_name, output_file_name)
     if input_file_name.nil?
