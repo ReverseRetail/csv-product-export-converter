@@ -41,7 +41,7 @@ private
 
   def extract_color_from_name
     @Color = @ProductName[/(?<=in )(\S*)/]
-    if @Color.nil?
+    if @Color.nil? || @Color == ''
       @Color = @@MULTICOLOR_NAME
     else
       @Color = @Color + @@COLOR_EXTENSION

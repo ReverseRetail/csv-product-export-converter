@@ -32,7 +32,7 @@ class CsvTransfromer
     CSV.open(output_file_name, 'wb', col_sep: @@SEPERATOR) do |csv_out|
       csv_out << @products[0].instance_variables.map {|s| s.to_s.gsub('@', '')}
       @products.each do |p|
-        csv_out << @products[0].instance_variables.map {|s| @products[0].instance_variable_get(s)}
+        csv_out << p.instance_variables.map {|s| p.instance_variable_get(s)}
       end
     end
   end
