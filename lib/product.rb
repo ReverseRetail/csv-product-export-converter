@@ -2,7 +2,7 @@ class Product
 
   @@MULTICOLOR_NAME = 'Mehrfarbig'
   @@COLOR_EXTENSION = 'töne'
-  @@ONESIZE_NAME = 'Onesize'
+  @@ONESIZE_NAME = 'Einheitsgröße'
 
   attr_reader :ProductID,          :ProductCategory,    :Deeplink,
               :ProductName,        :ProductName,        :ImageUrl,
@@ -44,7 +44,7 @@ private
     if @Color.nil? || @Color == ''
       @Color = @@MULTICOLOR_NAME
     else
-      @Color = @Color + @@COLOR_EXTENSION
+      @Color = @Color #+ @@COLOR_EXTENSION
     end
   end
 
