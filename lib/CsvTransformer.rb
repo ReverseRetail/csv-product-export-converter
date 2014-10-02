@@ -1,9 +1,10 @@
 require './lib/product'
 require 'CSV'
+require 'open-uri'
 
 class CsvTransfromer
   @@SEPERATOR = ';'
-  @@IN_ENCODING_FROM_TO = 'windows-1252:utf-8'
+  @@IN_ENCODING_FROM_TO = 'iso-8859-1:utf-8'
 
   def initialize(input_file_name, output_file_name)
     if input_file_name.nil?
@@ -21,7 +22,7 @@ class CsvTransfromer
   end
 
   def read_and_transform_products_from_csv input_file_name
-    CSV.foreach(input_file_name, headers: true, col_sep: @@SEPERATOR, encoding: @@IN_ENCODING_FROM_TO) do |csv_in|
+    CSV.foreach(open(input_file_name), headers: true, col_sep: @@SEPERATOR, encoding: @@IN_ENCODING_FROM_TO) do |csv_in|
       product = Product.new(*csv_in.fields)
       product.transform_to_new_format
       @products << product
