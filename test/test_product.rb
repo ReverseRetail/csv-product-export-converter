@@ -23,6 +23,12 @@ class TestProduct < MiniTest::Unit::TestCase
     product
   end
 
+  def triple_color_product
+    product = simple_product
+    product.instance_eval("@ProductName = 'LArgentina Bluse in Cremeweiß, Lila & Beige Gr. DE 38 40 42 44'")
+    product
+  end
+
   def product_ending_on_in
     product = simple_product
     product.instance_eval("@ProductName = 'Marc Cain Blazer in Dunkelblau Gr. 38 / N3'")
@@ -118,6 +124,12 @@ class TestProduct < MiniTest::Unit::TestCase
     p = multi_color_product
     p.send(:extract_color_from_name)
     assert_equal 'Schwarz', p.Color
+  end
+
+  def test_extract_color_from_name_for_triple_color
+    p = triple_color_product
+    p.send(:extract_color_from_name)
+    assert_equal 'Cremeweiß', p.Color
   end
 
   def test_extract_color_from_name_for_products_without_color_and_size
