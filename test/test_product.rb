@@ -23,6 +23,12 @@ class TestProduct < MiniTest::Unit::TestCase
     product
   end
 
+  def product_ending_on_in
+    product = simple_product
+    product.instance_eval("@ProductName = 'Marc Cain Blazer in Dunkelblau Gr. 38 / N3'")
+    product
+  end
+
   def variant_product_without_color_and_size
     product = simple_product
     product.instance_eval("@ProductName = 'True Religion Jeans'")
@@ -93,25 +99,25 @@ class TestProduct < MiniTest::Unit::TestCase
   def test_extract_size_from_name_for_products_without_color_and_size
     p = variant_product_without_color_and_size
     p.send(:extract_size_from_name)
-    assert_equal 'Onesize', p.AvailableSizes
+    assert_equal 'Einheitsgröße', p.AvailableSizes
   end
 
   def test_extract_size_from_name_for_bag_product_without_size
     p = bag_product_without_size
     p.send(:extract_size_from_name)
-    assert_equal 'Onesize', p.AvailableSizes
+    assert_equal 'Einheitsgröße', p.AvailableSizes
   end
 
   def test_extract_color_from_name
     p = simple_product
     p.send(:extract_color_from_name)
-    assert_equal 'Schwarztöne', p.Color
+    assert_equal 'Schwarz', p.Color
   end
 
   def test_extract_color_from_name_for_multi_color
     p = multi_color_product
     p.send(:extract_color_from_name)
-    assert_equal 'Schwarztöne', p.Color
+    assert_equal 'Schwarz', p.Color
   end
 
   def test_extract_color_from_name_for_products_without_color_and_size
@@ -123,7 +129,13 @@ class TestProduct < MiniTest::Unit::TestCase
   def test_extract_color_from_name_for_bag_product_without_size
     p = bag_product_without_size
     p.send(:extract_color_from_name)
-    assert_equal 'Schwarztöne', p.Color
+    assert_equal 'Schwarz', p.Color
+  end
+
+  def test_extract_color_from_name_for_products_ending_on_in
+    p = product_ending_on_in
+    p.send(:extract_color_from_name)
+    assert_equal 'Dunkelblau', p.Color
   end
 
   def test_keep_size_for_variant_products_if_exist
@@ -150,7 +162,7 @@ class TestProduct < MiniTest::Unit::TestCase
     assert_equal 'Größe: W26 Farbe: Blau', p.ProductDescription
     assert_equal 'True Religion Jeans', p.ProductName
     assert_equal 'W26', p.AvailableSizes
-    assert_equal 'Schwarztöne', p.Color
+    assert_equal 'Schwarz', p.Color
   end
 
   def test_transform_to_new_format_multi_color
@@ -159,7 +171,7 @@ class TestProduct < MiniTest::Unit::TestCase
     assert_equal 'Größe: W26 Farbe: Blau', p.ProductDescription
     assert_equal 'True Religion Jeans', p.ProductName
     assert_equal 'W26', p.AvailableSizes
-    assert_equal 'Schwarztöne', p.Color
+    assert_equal 'Schwarz', p.Color
   end
 
   def test_transform_to_new_format_for_products_without_color_and_size
@@ -167,7 +179,7 @@ class TestProduct < MiniTest::Unit::TestCase
     p.transform_to_new_format
     assert_equal 'Größe: W26 Farbe: Blau', p.ProductDescription
     assert_equal 'True Religion Jeans', p.ProductName
-    assert_equal 'Onesize', p.AvailableSizes
+    assert_equal 'Einheitsgröße', p.AvailableSizes
     assert_equal 'Mehrfarbig', p.Color
   end
 
@@ -176,8 +188,8 @@ class TestProduct < MiniTest::Unit::TestCase
     p.transform_to_new_format
     assert_equal 'Größe: W26 Farbe: Blau', p.ProductDescription
     assert_equal 'Handtasche', p.ProductName
-    assert_equal 'Onesize', p.AvailableSizes
-    assert_equal 'Schwarztöne', p.Color
+    assert_equal 'Einheitsgröße', p.AvailableSizes
+    assert_equal 'Schwarz', p.Color
   end
 
 end
